@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Ulam Spiral</title>
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <div id="menu">
+      <label for="canvas_width">Canvas width (px):</label>
+      <input type="text" id="canvas_width" name="canvas_width" value="1920">
+      <label for="canvas_height">Canvas height (px):</label>
+      <input type="text" id="canvas_height" name="canvas_height" value="1080">
+      <label for="canvas_spacing">Spacing (px):</label>
+      <input type="text" id="canvas_spacing" name="canvas_spacing" value="20">
+      <label for="canvas_radius">Dot size (px):</label>
+      <input type="text" id="canvas_radius" name="canvas_radius" value="1">
+      <label for="canvas_bg">Background color:</label>
+      <input type="text" id="canvas_bg" name="canvas_bg" value="#000000">
+      <label for="canvas_color">Text+Dots color:</label>
+      <input type="text" id="canvas_color" name="canvas_color" value="#FFFFFF">
+      <label for="canvas_spiral">Spiral color:</label>
+      <input type="text" id="canvas_spiral" name="canvas_spiral" value="#079400">
+      <div class="display_options">        
+        <input name="opt" id="opt1" type="radio" value="1">
+        <label for="opt1">SHOW - dots only</label>
+      </div>
+      <div class="display_options">   
+        <input name="opt" id="opt2" type="radio" value="2" checked>
+        <label for="opt2">SHOW - numbers + line</label>
+      </div>
+      <div class="display_options">   
+        <input name="opt" id="opt3" type="radio" value="3">
+        <label for="opt3">SHOW - numbers only</label>
+      </div>
+      <div>
+        <input id="btnClose" type="button" value="Close">
+        <input id="btnDefault" type="button" class="reset" value="Default">
+        <input id="btnOk" type="button" class="ok" value="Set">
+      </div>
+    </div>
+    <canvas id="content"></canvas>
+    <script src="UlamSpiral.js"></script>
+    <script>
+      // Set new canvas
+      function setCanvas(cWidth, cHeight, cSpacing, dotRadius, option, canvasBg, canvasColor, canvasSpiral) {
+
+        // Set default variables
+        var canvas = document.getElementById("content");
+        ctx = canvas.getContext("2d");
+        var cWidth = document.getElementById("canvas_width").value || cWidth;
+        var cHeight = document.getElementById("canvas_height").value || cHeight;
+        var cSpacing = document.getElementById("canvas_spacing").value || cSpacing;
+        var dotRadius = document.getElementById("canvas_radius").value || dotRadius;
+        var option = document.querySelector("input[name='opt']:checked").value || option;
+        var canvasBg = document.getElementById("canvas_bg").value || canvasBg;
+        var canvasColor = document.getElementById("canvas_color").value || canvasColor;
+        var canvasSpiral = document.getElementById("canvas_spiral").value || canvasSpiral;
+
+        // Set canvas dimension
+        canvas.width = canvas.style.width = cWidth;
+        canvas.height = canvas.style.height = cHeight;
+        canvas.style.backgroundColor = canvasBg;
+
+        // Get data
+        var ulam = new UlamSpiral();
+        var data = ulam.getData(cWidth, cHeight, cSpacing);
+
+        var points = data.points;
+        var spiral = data.spiral;
+
+        // Display spiral
+        if(option == 2) {
+          for(var i = 0; i < spiral.length; i++) {           
+            ctx.beginPath();
+            ctx.moveTo(spiral[i].x, spiral[i].y);
+            ctx.strokeStyle = canvasSpiral;
+
+            if(spiral[i+1] !== undefined) {
+              ctx.lineTo(spiral[i+1].x, spiral[i+1].y); 
+            }
+            ctx.stroke();
+          }
+        }
+        
+        // Display dots and numbers
+        for(var j = 0; j < points.length; j++) {
+          ctx.fillStyle = canvasColor
+          ctx.fillRect(points[j].x, points[j].y, dotRadius, dotRadius);
+          ctx.fill()
+
+          if(option == 2 || option == 3) {
+            ctx.font = "8px Arial";
+            ctx.fillText(points[j].value, points[j].x, points[j].y);
+          }
+        }
+      }
+
+      setCanvas();
+
+      // Listener for OK button
+      document.getElementById("btnOk").addEventListener("click", function() {
+        setCanvas();
+      });
+
+      // Listener for DEFAULT button
+      document.getElementById("btnDefault").addEventListener("click", function() {
+        setCanvas(1920, 1080, 20, 1, 2, "#000000", "#FFFFFF", "#079400");
+      });
+
+      // Listener for CLOSE button
+      document.getElementById("btnClose").addEventListener("click", function() {
+        document.getElementById("menu").style = "display:none;";
+      });
+    </script>
+  </body>
+</html>

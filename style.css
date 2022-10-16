@@ -1,0 +1,47 @@
+body {
+  font-size: 14px;
+  font-weight: normal;
+  font-family: 'WebFont', Georgia, sans-serif;
+}
+
+#menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background-color: #000;
+  color: #fff;
+  padding: 10px 25px 25px;
+  border: 1px solid #fff;
+  height: auto;
+}
+
+#menu label {
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+#menu input[type="text"] {
+  width: 50px;
+  border: none;
+}
+
+#menu input[type="button"] {
+  width: 75px;
+  border: none;
+  margin-top: 25px;
+}
+
+#menu input[type="button"].ok {
+  background-color: rgb(161, 255, 166);
+}
+
+#menu input[type="button"].reset {
+  background-color: rgb(255, 161, 161);
+}
+
+#menu .display_options {
+  margin-top: 15px;
+}
