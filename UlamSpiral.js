@@ -40,35 +40,17 @@ class UlamSpiral {
       for(var y = 0; y <= 1; y++) {
         for(var x = 0; x < startStep; x++) {
           counter++;
+
+          if(precountedPrimes[precountedPrimesIndex] == counter) {
+            points.push({"value": counter, "x": cWidth/2+px, "y": cHeight/2+py});
+            precountedPrimesIndex++;
+          }
+
           switch(direction) {
-            case 0: 
-              if(precountedPrimes[precountedPrimesIndex] == counter) {
-                points.push({"value": counter, "x": cWidth/2+px, "y": cHeight/2+py});
-                precountedPrimesIndex++;
-              }
-              px+=spacing;
-              break;
-            case 1: 
-              if(precountedPrimes[precountedPrimesIndex] == counter) {
-                points.push({"value": counter, "x": cWidth/2+px, "y": cHeight/2+py});
-                precountedPrimesIndex++;
-              }
-              py-=spacing; 
-              break;
-            case 2: 
-              if(precountedPrimes[precountedPrimesIndex] == counter) {
-                points.push({"value": counter, "x": cWidth/2+px, "y": cHeight/2+py});
-                precountedPrimesIndex++;
-              }
-              px-=spacing; 
-              break;
-            case 3: 
-              if(precountedPrimes[precountedPrimesIndex] == counter) {
-                points.push({"value": counter, "x": cWidth/2+px, "y": cHeight/2+py});
-                precountedPrimesIndex++;
-              }
-              py+=spacing; 
-              break;
+            case 0: px+=spacing; break;
+            case 1: py-=spacing; break;
+            case 2: px-=spacing; break;
+            case 3: py+=spacing; break;
           }
         }
         spiral.push({"x": cWidth/2+px, "y": cHeight/2+py});
